@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -47,6 +51,7 @@ public class UserController {
 
 	@PostMapping("/")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		User savedUser = userService.save(user);
 		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
@@ -68,7 +73,8 @@ public class UserController {
 		return existingUser.map(value -> {
 			value.setEmail(user.getEmail());
 			value.setUsername(user.getUsername());
-			value.setEnabled(user.isEnabled());
+			if (user.isEnabled() != null)
+				value.setEnabled(user.isEnabled());
 			return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(value));
 		}).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
