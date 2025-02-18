@@ -28,15 +28,14 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Long id) {
-		Optional<User> user = userService.findById(id);
-		return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+		return userService.findById(id).map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByName(@PathVariable String username) {
-		User user = userService.findByUsername(username);
-		return Optional.ofNullable(user).map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+		return Optional.ofNullable(userService.findByUsername(username))
+				.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
@@ -47,8 +46,7 @@ public class UserController {
 
 	@PostMapping("/")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
-		User savedUser = userService.save(user);
-		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+		return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/{id}")
@@ -64,8 +62,7 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-		Optional<User> userUpdated = userService.update(user, id);
-		return userUpdated.map(value -> ResponseEntity.status(HttpStatus.CREATED).body(value))
+		return userService.update(user, id).map(value -> ResponseEntity.status(HttpStatus.CREATED).body(value))
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
 }
