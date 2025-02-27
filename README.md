@@ -12,9 +12,33 @@ El microservicio `msvc-users` proporciona funcionalidades para la creación, act
 - Maven 3.6.3 o superior
 - MySQL 5.7 o superior
 
+## Dependencias
+
+El proyecto `msvc-users` utiliza las siguientes dependencias:
+
+- **Spring Boot Starter Parent**: Configuración base para proyectos Spring Boot.
+- **Spring Cloud Starter Netflix Eureka Client**: Cliente Eureka para registro y descubrimiento de servicios.
+- **Spring Boot Starter Web**: Soporte para aplicaciones web.
+- **Spring Boot Starter Data JPA**: Soporte para JPA y bases de datos.
+- **Spring Boot DevTools**: Herramientas de desarrollo para Spring Boot.
+- **Spring Boot Starter Test**: Dependencias para pruebas en Spring Boot.
+- **MySQL Connector**: Conector JDBC para MySQL.
+- **Spring Cloud Starter Config**: Cliente para Spring Cloud Config.
+- **Spring Cloud Starter Bootstrap**: Soporte para configuración de arranque en Spring Cloud.
+- **libs-msvc-commons**: Dependencia común para microservicios.
+
+## Estructura del Proyecto
+
+- [java](http://_vscodecontentref_/1): Contiene el código fuente del proyecto.
+- [resources](http://_vscodecontentref_/2): Contiene los archivos de configuración y recursos estáticos.
+- [pom.xml](http://_vscodecontentref_/3): Archivo de configuración de Maven.
+
 ## Instalación
 
-1. Clona el repositorio
+1. Clona el repositorio:
+    ```sh
+    git clone https://github.com/ignjs/msvc-users.git
+    ```
 2. Navega al directorio del proyecto:
     ```sh
     cd msvc-user
