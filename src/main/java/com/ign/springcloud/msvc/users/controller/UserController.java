@@ -3,6 +3,7 @@ package com.ign.springcloud.msvc.users.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("")
 public class UserController {
 
+	private final Logger log = org.slf4j.LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
 	private UserService userService;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Long id) {
+		log.info("Getting user by id: " + id);
 		return userService.findById(id).map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByName(@PathVariable String username) {
+		log.info("Getting user by username: " + username);
 		return Optional.ofNullable(userService.findByUsername(username))
 				.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -41,16 +46,19 @@ public class UserController {
 
 	@GetMapping("/")
 	public List<User> getAllUsers() {
+		log.info("Getting all users");
 		return userService.findAll();
 	}
 
 	@PostMapping("/")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
+		log.info("Creating user: " + user);
 		return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+		log.info("Deleting user by id: " + id);
 		Optional<User> user = userService.findById(id);
 		if (user.isPresent()) {
 			userService.deleteById(id);
@@ -62,6 +70,7 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+		log.info("Updating user by id: " + id);
 		return userService.update(user, id).map(value -> ResponseEntity.status(HttpStatus.CREATED).body(value))
 				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
