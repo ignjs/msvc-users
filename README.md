@@ -25,6 +25,7 @@ El proyecto `msvc-users` utiliza las siguientes dependencias:
 - **MySQL Connector**: Conector JDBC para MySQL.
 - **Spring Cloud Starter Config**: Cliente para Spring Cloud Config.
 - **Spring Cloud Starter Bootstrap**: Soporte para configuración de arranque en Spring Cloud.
+- **Spring Cloud Starter Zipkin**: Para trazabilidad distribuida con Zipkin.
 - **libs-msvc-commons**: Dependencia común para microservicios.
 
 ## Estructura del Proyecto
@@ -97,7 +98,14 @@ INSERT INTO users (username, password, enabled, email) VALUES
 ('bob_brown', 'password321', FALSE, 'bob.brown@example.com'),
 ('charlie_black', 'password654', TRUE, 'charlie.black@example.com');
 ```
+## Trazabilidad con Zipkin
 
+El proyecto utiliza Zipkin para la trazabilidad distribuida de las solicitudes entre microservicios.  
+Para ejecutar Zipkin usando MySQL como almacenamiento, utiliza el siguiente comando:
+
+```sh
+STORAGE_TYPE=mysql MYSQL_USER=zipkin MYSQL_PASS=zipkin java -jar zipkin.jar
+```
 
 
 
